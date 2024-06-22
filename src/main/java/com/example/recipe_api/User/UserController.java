@@ -65,4 +65,10 @@ public class UserController
     {
         return recipeService.deleteRecipe(userId, recipeId);
     }
+
+    @PutMapping("/{userId}/recipe/{recipeId}")
+    public Recipe updateRecipe(@PathVariable Long userId, @PathVariable Long recipeId, @RequestBody Recipe updatedRecipe)
+    {
+        return recipeService.updateRecipe(userId, recipeId, updatedRecipe);
+    }
 }
