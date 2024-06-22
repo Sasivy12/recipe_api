@@ -36,4 +36,32 @@ public class RecipeService
             throw new RuntimeException("User with this id not found");
         }
     }
+
+    public Recipe deleteRecipe(Long userId, Long recipeId)
+    {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if(optionalUser.isPresent())
+        {
+            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+
+            if(optionalRecipe.isPresent())
+            {
+                Recipe recipe = optionalRecipe.get();
+
+                User user = optionalUser.get();
+
+                if(user.getRecipes().equals(recipe))
+                {
+                    recipeRepository.delete(recipe);
+
+                }
+                else
+                {
+                    throw new RuntimeException("Recipe with this id does not exist");
+                }
+            }
+        }
+        return null;
+    }
 }
