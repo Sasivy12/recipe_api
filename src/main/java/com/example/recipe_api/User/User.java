@@ -3,6 +3,7 @@ package com.example.recipe_api.User;
 import com.example.recipe_api.Recipe.Recipe;
 import com.example.recipe_api.Review.Review;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -28,10 +29,11 @@ public class User
     private String email;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference("user-reviews")
     private Set<Review> reviews;
 
     @OneToMany(mappedBy = "user")
-    @JsonBackReference
+    @JsonManagedReference("user-recipes")
     private Set<Recipe> recipes;
 
     public User(Long user_id, String user_name, String password, String email)

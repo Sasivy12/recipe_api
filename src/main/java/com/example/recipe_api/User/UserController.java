@@ -2,7 +2,11 @@ package com.example.recipe_api.User;
 
 import com.example.recipe_api.Recipe.Recipe;
 import com.example.recipe_api.Recipe.RecipeService;
+import com.example.recipe_api.Review.Review;
+import com.example.recipe_api.Review.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +21,9 @@ public class UserController
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @PostMapping("/user/add")
     public User createUser(@RequestBody User user)
@@ -70,5 +77,25 @@ public class UserController
     public Recipe updateRecipe(@PathVariable Long userId, @PathVariable Long recipeId, @RequestBody Recipe updatedRecipe)
     {
         return recipeService.updateRecipe(userId, recipeId, updatedRecipe);
+    }
+
+//    @GetMapping("/{userId}/recipe/{recipeId}/reviews")
+//    public List<Review> getReviewsForRecipe(@PathVariable Long userId, @PathVariable Long recipeId)
+//    {
+//        List<Review> reviews = reviewService.getReviewsByRecipeId(recipeId);
+//
+//        return reviews;
+//    }
+    @GetMapping("/{userId}/recipe/{recipeId}/reviews")
+    public ResponseEntity<List<Review>> getReviewsForRecipe(@PathVariable Long userId, @PathVariable Long recipeId)
+    {
+        List<Review> reviews = reviewService.getReviewsByRecipeId(recipeId);
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @PostMapping("/{userId}/recipe/{recipeId}/reviews/add")
+    public Review createReview(@PathVariable Long userId, @PathVariable Long recipeId, @RequestBody Review review)
+    {
+        return reviewService.createReview(userId, recipeId, review);
     }
 }

@@ -2,6 +2,8 @@ package com.example.recipe_api.Recipe;
 
 import com.example.recipe_api.Review.Review;
 import com.example.recipe_api.User.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -43,10 +45,12 @@ public class Recipe
     private Double ratings;
 
     @OneToMany(mappedBy = "recipe")
+    @JsonManagedReference("recipe-reviews")
     private Set<Review> reviews;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference("user-recipes")
     private User user;
 
     public Recipe(Long recipeId, String title, String description, String ingredients, String instructions, Integer prepTime, Integer cookTime, Integer totalTime, Integer servings, String category, String tags, LocalDate createdAt, LocalDate updatedAt, Double ratings)

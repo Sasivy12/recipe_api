@@ -2,6 +2,8 @@ package com.example.recipe_api.Review;
 
 import com.example.recipe_api.Recipe.Recipe;
 import com.example.recipe_api.User.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,15 +13,18 @@ public class Review
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String message;
     private Double rating;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference("user-reviews")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
+    @JsonBackReference("recipe-reviews")
     private Recipe recipe;
 
     public Review(Long id, String message, Double rating, User user)
