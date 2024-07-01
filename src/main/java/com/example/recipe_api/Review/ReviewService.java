@@ -4,10 +4,8 @@ import com.example.recipe_api.Recipe.Recipe;
 import com.example.recipe_api.Recipe.RecipeRepository;
 import com.example.recipe_api.User.User;
 import com.example.recipe_api.User.UserRepository;
-import jakarta.persistence.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,5 +39,32 @@ public class ReviewService
         review.setUser(userOptional.get());
 
         return reviewRepository.save(review);
+    }
+
+    public Review deleteReview(Long userId, Long recipeId, Long reviewId)
+    {
+        Optional<Recipe> userOptional = recipeRepository.findById(recipeId);
+
+        if(userOptional.isPresent())
+        {
+            Optional<User> recipeOptional = userRepository.findById(userId);
+            if(recipeOptional.isPresent())
+            {
+                Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
+                if(reviewOptional.isPresent())
+                {
+                    Review review = reviewOptional.get();
+                    reviewRepository.delete(review);
+                }
+                else throw new RuntimeException("Review provided is incorrect");
+
+            }
+            else throw new RuntimeException("Recipe provided is incorrect");
+
+        }
+        else throw new RuntimeException("User provided is incorrect");
+
+
+        return null;
     }
 }

@@ -79,13 +79,6 @@ public class UserController
         return recipeService.updateRecipe(userId, recipeId, updatedRecipe);
     }
 
-//    @GetMapping("/{userId}/recipe/{recipeId}/reviews")
-//    public List<Review> getReviewsForRecipe(@PathVariable Long userId, @PathVariable Long recipeId)
-//    {
-//        List<Review> reviews = reviewService.getReviewsByRecipeId(recipeId);
-//
-//        return reviews;
-//    }
     @GetMapping("/{userId}/recipe/{recipeId}/reviews")
     public ResponseEntity<List<Review>> getReviewsForRecipe(@PathVariable Long userId, @PathVariable Long recipeId)
     {
@@ -97,5 +90,11 @@ public class UserController
     public Review createReview(@PathVariable Long userId, @PathVariable Long recipeId, @RequestBody Review review)
     {
         return reviewService.createReview(userId, recipeId, review);
+    }
+
+    @DeleteMapping("/{userId}/recipe/{recipeId}/reviews/{reviewId}")
+    public Review deleteReview(@PathVariable Long userId, @PathVariable Long recipeId, @PathVariable Long reviewId)
+    {
+        return reviewService.deleteReview(userId, recipeId, reviewId);
     }
 }
