@@ -2,6 +2,7 @@ package com.example.recipe_api.Review;
 
 import com.example.recipe_api.Recipe.Recipe;
 import com.example.recipe_api.Recipe.RecipeRepository;
+import com.example.recipe_api.Recipe.RecipeService;
 import com.example.recipe_api.User.User;
 import com.example.recipe_api.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class ReviewService
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RecipeService recipeService;
+
     public List<Review> getReviewsByRecipeId(Long recipeId)
     {
         Optional<Recipe> recipe = recipeRepository.findById(recipeId);
@@ -39,9 +43,15 @@ public class ReviewService
             review.setUser(userOptional.get());
 
             Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
             if(recipeOptional.isPresent())
             {
-                review.setRecipe(recipeOptional.get());
+                Recipe recipe = recipeOptional.get();
+                review.setRecipe(recipe);
+
+                reviewRepository.save(review);
+
+                recipeService.updateAverageRating(recipe);
             }
             else
             {
@@ -101,6 +111,8 @@ public class ReviewService
                         review.setRating(updatedReview.getRating());
 
                         reviewRepository.save(review);
+
+                        recipeService.updateAverageRating(review.getRecipe());
                     }
                     else
                     {

@@ -44,7 +44,7 @@ public class Recipe
 
     private Double ratings;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("recipe-reviews")
     private Set<Review> reviews;
 

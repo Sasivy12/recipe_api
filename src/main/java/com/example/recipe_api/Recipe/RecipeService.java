@@ -1,5 +1,7 @@
 package com.example.recipe_api.Recipe;
 
+import com.example.recipe_api.Review.Review;
+import com.example.recipe_api.Review.ReviewRepository;
 import com.example.recipe_api.User.User;
 import com.example.recipe_api.User.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,6 +20,21 @@ public class RecipeService
 
     @Autowired
     RecipeRepository recipeRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+
+    public void updateAverageRating(Recipe recipe)
+    {
+        Double averageRating = reviewRepository.findByRecipe(recipe)
+                .stream()
+                .mapToDouble(Review::getRating)
+                .average()
+                .orElse(0.0);
+        recipe.setRatings(averageRating);
+        recipeRepository.save(recipe);
+    }
 
     public Recipe addRecipeToUser(Long userId, Recipe recipe)
     {
@@ -113,5 +130,4 @@ public class RecipeService
             throw new EntityNotFoundException("User not found");
         }
     }
-
 }
