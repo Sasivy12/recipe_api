@@ -32,11 +32,26 @@ public class ReviewService
 
     public Review createReview(Long userId, Long recipeId, Review review)
     {
-        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
-        review.setRecipe(recipeOptional.get());
-
         Optional<User> userOptional = userRepository.findById(userId);
-        review.setUser(userOptional.get());
+
+        if(userOptional.isPresent())
+        {
+            review.setUser(userOptional.get());
+
+            Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+            if(recipeOptional.isPresent())
+            {
+                review.setRecipe(recipeOptional.get());
+            }
+            else
+            {
+                throw new RuntimeException("Provided recipe is not correct");
+            }
+        }
+        else
+        {
+            throw new RuntimeException("Provided user is not correct") ;
+        }
 
         return reviewRepository.save(review);
     }
@@ -67,4 +82,10 @@ public class ReviewService
 
         return null;
     }
+
+//    public Optional<Review> upddateReview(Long userId, Long recipeId, Long reviewId, Review updatedReview)
+//    {
+//        Optional<Recipe> userOptional = recipeRepository.findById(recipeId);
+//
+//    }
 }

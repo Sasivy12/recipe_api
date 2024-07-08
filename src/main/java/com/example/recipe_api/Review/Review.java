@@ -3,8 +3,8 @@ package com.example.recipe_api.Review;
 import com.example.recipe_api.Recipe.Recipe;
 import com.example.recipe_api.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "reviews")
@@ -14,7 +14,13 @@ public class Review
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String message;
+    @NotBlank(message = "Message is mandatory")
+    @Size(max = 1000, message = "Comment should not be more than 1000 characters")
+    private String comment;
+
+    @NotNull(message = "Rating is mandatory")
+    @Min(value = 0, message = "Rating should not be less than 0")
+    @Max(value = 5, message = "Rating should not be more than 5")
     private Double rating;
 
     @ManyToOne
@@ -27,17 +33,17 @@ public class Review
     @JsonBackReference("recipe-reviews")
     private Recipe recipe;
 
-    public Review(Long id, String message, Double rating, User user)
+    public Review(Long id, String comment, Double rating, User user)
     {
         this.id = id;
-        this.message = message;
+        this.comment = comment;
         this.rating = rating;
         this.user = user;
     }
 
-    public Review(String message, Double rating, User user)
+    public Review(String comment, Double rating, User user)
     {
-        this.message = message;
+        this.comment = comment;
         this.rating = rating;
         this.user = user;
     }
@@ -57,14 +63,14 @@ public class Review
         this.id = id;
     }
 
-    public String getMessage()
+    public String getComment()
     {
-        return message;
+        return comment;
     }
 
-    public void setMessage(String message)
+    public void setComment(String comment)
     {
-        this.message = message;
+        this.comment = comment;
     }
 
     public Double getRating()
