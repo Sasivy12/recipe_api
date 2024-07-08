@@ -56,13 +56,13 @@ public class ReviewService
         return reviewRepository.save(review);
     }
 
-    public Review deleteReview(Long userId, Long recipeId, Long reviewId)
+    public void deleteReview(Long userId, Long recipeId, Long reviewId)
     {
-        Optional<Recipe> userOptional = recipeRepository.findById(recipeId);
+        Optional<Recipe> userOptional = recipeRepository.findById(userId);
 
         if(userOptional.isPresent())
         {
-            Optional<User> recipeOptional = userRepository.findById(userId);
+            Optional<User> recipeOptional = userRepository.findById(recipeId);
             if(recipeOptional.isPresent())
             {
                 Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
@@ -78,14 +78,48 @@ public class ReviewService
 
         }
         else throw new RuntimeException("User provided is incorrect");
-
-
-        return null;
     }
 
-//    public Optional<Review> upddateReview(Long userId, Long recipeId, Long reviewId, Review updatedReview)
-//    {
-//        Optional<Recipe> userOptional = recipeRepository.findById(recipeId);
-//
-//    }
+    public void updateReview(Long userId, Long recipeId, Long reviewId, Review updatedReview)
+    {
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (userOptional.isPresent())
+        {
+            Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
+            if (recipeOptional.isPresent())
+            {
+                Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
+
+                if (reviewOptional.isPresent())
+                {
+                    Review review = reviewOptional.get();
+
+                    if (review.getRecipe().getRecipeId().equals(recipeId) && review.getUser().getUser_id().equals(userId)) {
+                        review.setComment(updatedReview.getComment());
+                        review.setRating(updatedReview.getRating());
+
+                        reviewRepository.save(review);
+                    }
+                    else
+                    {
+                        throw new RuntimeException("Review does not belong to the provided recipe or user");
+                    }
+                }
+                else
+                {
+                    throw new RuntimeException("Review provided is incorrect");
+                }
+            }
+            else
+            {
+                throw new RuntimeException("Recipe provided is incorrect");
+            }
+        }
+        else
+        {
+            throw new RuntimeException("User provided is incorrect");
+        }
+    }
 }

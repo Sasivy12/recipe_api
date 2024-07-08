@@ -68,9 +68,9 @@ public class UserController
     }
 
     @DeleteMapping("/{userId}/recipe/{recipeId}")
-    public Recipe deleteRecipe(@PathVariable Long userId, @PathVariable Long recipeId)
+    public void deleteRecipe(@PathVariable Long userId, @PathVariable Long recipeId)
     {
-        return recipeService.deleteRecipe(userId, recipeId);
+        recipeService.deleteRecipe(userId, recipeId);
     }
 
     @PutMapping("/{userId}/recipe/{recipeId}")
@@ -93,8 +93,14 @@ public class UserController
     }
 
     @DeleteMapping("/{userId}/recipe/{recipeId}/reviews/{reviewId}")
-    public Review deleteReview(@PathVariable Long userId, @PathVariable Long recipeId, @PathVariable Long reviewId)
+    public void deleteReview(@PathVariable Long userId, @PathVariable Long recipeId, @PathVariable Long reviewId)
     {
-        return reviewService.deleteReview(userId, recipeId, reviewId);
+        reviewService.deleteReview(userId, recipeId, reviewId);
+    }
+
+    @PutMapping("/{userId}/recipe/{recipeId}/reviews/{reviewId}")
+    public void updateReview(@PathVariable Long userId, @PathVariable Long recipeId, @PathVariable Long reviewId, @RequestBody Review upatedReview)
+    {
+        reviewService.updateReview(userId, recipeId, reviewId, upatedReview);
     }
 }

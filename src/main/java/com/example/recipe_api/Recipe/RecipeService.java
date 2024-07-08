@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,51 +39,51 @@ public class RecipeService
         }
     }
 
-    public Recipe deleteRecipe(Long userId, Long recipeId)
+    public void deleteRecipe(Long userId, Long recipeId)
     {
         Optional<User> optionalUser = userRepository.findById(userId);
 
-        if(optionalUser.isPresent())
-        {
+        if (optionalUser.isPresent()) {
             Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
-            if(optionalRecipe.isPresent())
-            {
+            if (optionalRecipe.isPresent()) {
                 Recipe recipe = optionalRecipe.get();
-
                 User user = optionalUser.get();
 
-                if(user.getRecipes().equals(recipe))
+                if (recipe.getUser().getUser_id().equals(user.getUser_id()))
                 {
                     recipeRepository.delete(recipe);
                 }
                 else
                 {
-                    throw new RuntimeException("Recipe with this id does not exist");
+                    throw new IllegalStateException("User does not own this recipe");
                 }
             }
+            else
+            {
+                throw new EntityNotFoundException("Recipe not found");
+            }
         }
-        return null;
+        else
+        {
+            throw new EntityNotFoundException("User not found");
+        }
     }
 
-    public Recipe updateRecipe(Long userId, Long recipeId, Recipe updatedRecipe)
-    {
+    public Recipe updateRecipe(Long userId, Long recipeId, Recipe updatedRecipe) {
         Optional<User> optionalUser = userRepository.findById(userId);
 
-        if(optionalUser.isPresent())
-        {
-            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
 
-            if(optionalRecipe.isPresent())
-            {
+            if (optionalRecipe.isPresent()) {
                 Recipe recipe = optionalRecipe.get();
 
-                if(recipe.getUser().getUser_id().equals(user.getUser_id()))
-                {
+                if (recipe.getUser().getUser_id().equals(user.getUser_id())) {
                     recipe.setCategory(updatedRecipe.getCategory());
                     recipe.setCookTime(updatedRecipe.getCookTime());
-                    recipe.setUpdatedAt(updatedRecipe.getUpdatedAt());
+                    recipe.setUpdatedAt(LocalDate.now());
                     recipe.setDescription(updatedRecipe.getDescription());
                     recipe.setIngredients(updatedRecipe.getIngredients());
                     recipe.setPrepTime(updatedRecipe.getPrepTime());
@@ -93,9 +94,9 @@ public class RecipeService
                     recipe.setInstructions(updatedRecipe.getInstructions());
                     recipe.setCreatedAt(updatedRecipe.getCreatedAt());
                     recipe.setRatings(updatedRecipe.getRatings());
-                    recipe.setReviews(updatedRecipe.getReviews());
 
                     return recipeRepository.save(recipe);
+
                 }
                 else
                 {
