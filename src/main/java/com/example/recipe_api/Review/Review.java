@@ -16,6 +16,7 @@ public class Review
 
     @NotBlank(message = "Message is mandatory")
     @Size(max = 1000, message = "Comment should not be more than 1000 characters")
+    @Column(columnDefinition = "TEXT")
     private String comment;
 
     @NotNull(message = "Rating is mandatory")

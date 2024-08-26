@@ -25,13 +25,13 @@ public class UserController
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping("/user/add")
+    @PostMapping("/user")
     public User createUser(@RequestBody User user)
     {
         return userService.createUser(user);
     }
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public List<User> getAllUsers()
     {
         return userService.getAllUsers();
@@ -61,7 +61,7 @@ public class UserController
         return userService.getRecipeByUser(recipeId, userId);
     }
 
-    @PostMapping("/{userId}/recipe/add")
+    @PostMapping("/{userId}/recipe")
     public Recipe createRecipe(@PathVariable Long userId, @RequestBody Recipe recipe)
     {
         return recipeService.addRecipeToUser(userId, recipe);
@@ -79,26 +79,26 @@ public class UserController
         return recipeService.updateRecipe(userId, recipeId, updatedRecipe);
     }
 
-    @GetMapping("/{userId}/recipe/{recipeId}/reviews")
+    @GetMapping("/{userId}/recipe/{recipeId}/review")
     public ResponseEntity<List<Review>> getReviewsForRecipe(@PathVariable Long userId, @PathVariable Long recipeId)
     {
         List<Review> reviews = reviewService.getReviewsByRecipeId(recipeId);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
-    @PostMapping("/{userId}/recipe/{recipeId}/reviews/add")
+    @PostMapping("/{userId}/recipe/{recipeId}/review")
     public Review createReview(@PathVariable Long userId, @PathVariable Long recipeId, @RequestBody Review review)
     {
         return reviewService.createReview(userId, recipeId, review);
     }
 
-    @DeleteMapping("/{userId}/recipe/{recipeId}/reviews/{reviewId}")
+    @DeleteMapping("/{userId}/recipe/{recipeId}/review/{reviewId}")
     public void deleteReview(@PathVariable Long userId, @PathVariable Long recipeId, @PathVariable Long reviewId)
     {
         reviewService.deleteReview(userId, recipeId, reviewId);
     }
 
-    @PutMapping("/{userId}/recipe/{recipeId}/reviews/{reviewId}")
+    @PutMapping("/{userId}/recipe/{recipeId}/review/{reviewId}")
     public void updateReview(@PathVariable Long userId, @PathVariable Long recipeId, @PathVariable Long reviewId, @RequestBody Review upatedReview)
     {
         reviewService.updateReview(userId, recipeId, reviewId, upatedReview);
