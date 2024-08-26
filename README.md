@@ -13,10 +13,10 @@
   
 ### URL-шаблоны 
 `GET` Возвращает список всех пользователей.
-`localhost:8000/api/users`
+`localhost:8000/api/user`
 
 `POST` Создает нового пользователя.
-`localhost:8000/api//user/add`
+`localhost:8000/api/user`
 
 `PUT`, `DELETE` Изменяет или удаляет информацию о конкретном пользователе по его уникальному идентификатору.
 `localhost:8000/api/user/{user_id}`
@@ -45,7 +45,7 @@
   
 ### URL-шаблоны
 `POST` Добавляет новый рецепт.
-`localhost:8000/api/{userId}/recipe/add`
+`localhost:8000/api/{userId}/recipe`
 
 `PUT`, `DELETE`, `GET` Изменяет, удаляет, возвращает информацию о конкретном рецепте по его уникальному идентификатору.
 `localhost:8000/api/{userId}/recipe/{recipeId}`
@@ -63,10 +63,10 @@
   
 ### URL-шаблоны
 `POST` Добавляет новый отзыв к конкретному рецепту.
-`localhost:8000/api/{userId}/recipe/{recipeId}/reviews/add`
+`localhost:8000/api/{userId}/recipe/{recipeId}/review`
 
 `GET` Возвращает конкретный отзыв по его уникальному идентификатору.
-`localhost:8000/api/{userId}/recipe/{recipeId}/reviews`
+`localhost:8000/api/{userId}/recipe/{recipeId}/review`
 
 `PUT`, `DELETE` Изменяет или удаляет информацию о конкретном отзыве меню по его уникальному идентификатору.
-`localhost:8000/api/{userId}/recipe/{recipeId}/reviews/{reviewId}`
+`localhost:8000/api/{userId}/recipe/{recipeId}/review/{reviewId}`
