@@ -16,32 +16,19 @@ public class Recipe
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long recipeId;
-
     private String title;
-
     @Column(columnDefinition = "TEXT")
     private String description;
-
     private String ingredients;
-
     private String instructions;
-
     private Integer prepTime;
-
     private Integer cookTime;
-
     private Integer totalTime;
-
     private Integer servings;
-
     private String category;
-
     private String tags;
-
     private LocalDate createdAt;
-
     private LocalDate updatedAt;
-
     private Double ratings;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
