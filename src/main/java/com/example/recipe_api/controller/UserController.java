@@ -33,6 +33,12 @@ public class UserController
         return userService.createUser(user);
     }
 
+    @PostMapping("/login")
+    public String loginUser(@RequestBody User user)
+    {
+        return userService.verify(user);
+    }
+
     @GetMapping("/user")
     public List<User> getAllUsers()
     {

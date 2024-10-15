@@ -5,6 +5,9 @@ import com.example.recipe_api.repository.RecipeRepository;
 import com.example.recipe_api.model.User;
 import com.example.recipe_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +25,28 @@ public class UserService
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
+    @Autowired
+    private AuthenticationManager authManager;
+
     public User createUser(User user)
     {
         user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public String verify(User user)
+    {
+        Authentication authentication
+                = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+        if(authentication.isAuthenticated())
+        {
+            return "Success";
+        }
+        else
+        {
+            return "Fail";
+        }
     }
 
     public List<User> getAllUsers()
