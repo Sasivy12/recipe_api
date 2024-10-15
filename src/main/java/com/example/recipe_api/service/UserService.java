@@ -5,6 +5,7 @@ import com.example.recipe_api.repository.RecipeRepository;
 import com.example.recipe_api.model.User;
 import com.example.recipe_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,11 @@ public class UserService
     @Autowired
     private RecipeRepository recipeRepository;
 
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
     public User createUser(User user)
     {
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

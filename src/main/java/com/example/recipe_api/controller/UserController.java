@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping()
 public class UserController
 {
     @Autowired
@@ -27,7 +27,7 @@ public class UserController
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping("/user")
+    @PostMapping("/register")
     public User createUser(@RequestBody User user)
     {
         return userService.createUser(user);
