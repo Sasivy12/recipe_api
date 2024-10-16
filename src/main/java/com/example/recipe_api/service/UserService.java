@@ -28,6 +28,9 @@ public class UserService
     @Autowired
     private AuthenticationManager authManager;
 
+    @Autowired
+    private JwtService jwtService;
+
     public User createUser(User user)
     {
         user.setPassword(encoder.encode(user.getPassword()));
@@ -41,7 +44,7 @@ public class UserService
 
         if(authentication.isAuthenticated())
         {
-            return "Success";
+            return jwtService.generateToken(user.getUsername());
         }
         else
         {
