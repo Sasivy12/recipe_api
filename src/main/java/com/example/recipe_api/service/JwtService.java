@@ -3,6 +3,7 @@ package com.example.recipe_api.service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
@@ -49,7 +50,6 @@ public class JwtService
                 .and()
                 .signWith(generateKey())
                 .compact();
-
     }
 
     private Key generateKey()
@@ -57,5 +57,15 @@ public class JwtService
         byte[] keyBytes = Decoders.BASE64.decode(secret_key);
 
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String extractUsername(String token)
+    {
+        return null;
+    }
+
+    public boolean validateToken(String token, UserDetails userDetails)
+    {
+        return true;
     }
 }
