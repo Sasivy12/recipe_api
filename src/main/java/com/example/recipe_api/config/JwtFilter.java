@@ -1,6 +1,5 @@
 package com.example.recipe_api.config;
 
-
 import com.example.recipe_api.service.JwtService;
 import com.example.recipe_api.service.MyUserDetailsService;
 import jakarta.servlet.FilterChain;
@@ -13,10 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Component
 public class JwtFilter extends OncePerRequestFilter
 {
 
@@ -34,7 +35,7 @@ public class JwtFilter extends OncePerRequestFilter
         String token = null;
         String username = null;
 
-        if(authHeader.startsWith("Bearer ") && authHeader != null)
+        if(authHeader != null && authHeader.startsWith("Bearer "))
         {
             token = authHeader.substring(7);
             username = jwtService.extractUsername(token);
@@ -42,6 +43,7 @@ public class JwtFilter extends OncePerRequestFilter
             if(username != null && SecurityContextHolder.getContext().getAuthentication() == null)
             {
                 UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
+
                 if(jwtService.validateToken(token, userDetails))
                 {
                     UsernamePasswordAuthenticationToken authToken
