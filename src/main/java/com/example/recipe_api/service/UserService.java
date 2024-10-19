@@ -1,8 +1,14 @@
-package com.example.recipe_api.User;
+package com.example.recipe_api.service;
 
-import com.example.recipe_api.Recipe.Recipe;
-import com.example.recipe_api.Recipe.RecipeRepository;
+import com.example.recipe_api.model.Recipe;
+import com.example.recipe_api.repository.RecipeRepository;
+import com.example.recipe_api.model.User;
+import com.example.recipe_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +23,33 @@ public class UserService
     @Autowired
     private RecipeRepository recipeRepository;
 
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+    @Autowired
+    private AuthenticationManager authManager;
+
+    @Autowired
+    private JwtService jwtService;
+
     public User createUser(User user)
     {
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public String verify(User user)
+    {
+        Authentication authentication
+                = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+        if(authentication.isAuthenticated())
+        {
+            return jwtService.generateToken(user.getUsername());
+        }
+        else
+        {
+            return "Fail";
+        }
     }
 
     public List<User> getAllUsers()
@@ -57,7 +87,7 @@ public class UserService
             User user = existingUser.get();
 
             user.setEmail(updatedUser.getEmail());
-            user.setUser_name(updatedUser.getUser_name());
+            user.setUsername(updatedUser.getUsername());
             user.setPassword(updatedUser.getPassword());
 
             userRepository.save(user);

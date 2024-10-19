@@ -1,9 +1,11 @@
-package com.example.recipe_api.User;
+package com.example.recipe_api.controller;
 
-import com.example.recipe_api.Recipe.Recipe;
-import com.example.recipe_api.Recipe.RecipeService;
-import com.example.recipe_api.Review.Review;
-import com.example.recipe_api.Review.ReviewService;
+import com.example.recipe_api.model.Recipe;
+import com.example.recipe_api.service.RecipeService;
+import com.example.recipe_api.model.Review;
+import com.example.recipe_api.service.ReviewService;
+import com.example.recipe_api.model.User;
+import com.example.recipe_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping()
 public class UserController
 {
     @Autowired
@@ -25,10 +27,16 @@ public class UserController
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping("/user")
+    @PostMapping("/register")
     public User createUser(@RequestBody User user)
     {
         return userService.createUser(user);
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestBody User user)
+    {
+        return userService.verify(user);
     }
 
     @GetMapping("/user")

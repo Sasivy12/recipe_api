@@ -1,6 +1,7 @@
-package com.example.recipe_api.Recipe;
+package com.example.recipe_api.repository;
 
-import com.example.recipe_api.User.User;
+import com.example.recipe_api.model.Recipe;
+import com.example.recipe_api.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

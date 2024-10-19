@@ -1,7 +1,5 @@
-package com.example.recipe_api.User;
+package com.example.recipe_api.model;
 
-import com.example.recipe_api.Recipe.Recipe;
-import com.example.recipe_api.Review.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -18,7 +16,7 @@ public class User
     private Long user_id;
 
     @NotBlank(message = "Username is mandatory")
-    private String user_name;
+    private String username;
 
     @NotBlank(message = "Password is mandatory")
     private String password;
@@ -35,17 +33,17 @@ public class User
     @JsonManagedReference("user-recipes")
     private Set<Recipe> recipes;
 
-    public User(Long user_id, String user_name, String password, String email)
+    public User(Long user_id, String username, String password, String email)
     {
         this.user_id = user_id;
-        this.user_name = user_name;
+        this.username = username;
         this.password = password;
         this.email = email;
     }
 
-    public User(String user_name, String password, String email)
+    public User(String username, String password, String email)
     {
-        this.user_name = user_name;
+        this.username = username;
         this.password = password;
         this.email = email;
     }
@@ -65,14 +63,14 @@ public class User
         this.user_id = user_id;
     }
 
-    public String getUser_name()
+    public String getUsername()
     {
-        return user_name;
+        return username;
     }
 
-    public void setUser_name(String user_name)
+    public void setUsername(String username)
     {
-        this.user_name = user_name;
+        this.username = username;
     }
 
     public String getPassword()

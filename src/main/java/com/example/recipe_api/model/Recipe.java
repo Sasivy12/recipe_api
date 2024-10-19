@@ -1,7 +1,5 @@
-package com.example.recipe_api.Recipe;
+package com.example.recipe_api.model;
 
-import com.example.recipe_api.Review.Review;
-import com.example.recipe_api.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

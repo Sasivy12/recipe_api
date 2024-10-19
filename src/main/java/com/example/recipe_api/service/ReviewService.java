@@ -1,10 +1,11 @@
-package com.example.recipe_api.Review;
+package com.example.recipe_api.service;
 
-import com.example.recipe_api.Recipe.Recipe;
-import com.example.recipe_api.Recipe.RecipeRepository;
-import com.example.recipe_api.Recipe.RecipeService;
-import com.example.recipe_api.User.User;
-import com.example.recipe_api.User.UserRepository;
+import com.example.recipe_api.model.Recipe;
+import com.example.recipe_api.repository.RecipeRepository;
+import com.example.recipe_api.model.Review;
+import com.example.recipe_api.repository.ReviewRepository;
+import com.example.recipe_api.model.User;
+import com.example.recipe_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

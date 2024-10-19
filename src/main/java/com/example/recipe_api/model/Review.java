@@ -1,7 +1,7 @@
-package com.example.recipe_api.Review;
+package com.example.recipe_api.model;
 
-import com.example.recipe_api.Recipe.Recipe;
-import com.example.recipe_api.User.User;
+import com.example.recipe_api.model.Recipe;
+import com.example.recipe_api.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
